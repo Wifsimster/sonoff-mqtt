@@ -13,3 +13,13 @@ TX	| 2 (RX)
 RX	| 3 (TX)
 GND	| 4
 GPIO 14 | 5
+
+## Files
+
+* ``config.lua``: Configuration variables
+* ``init.lua``: Connect to a wifi AP and then execute main.lua file
+* ``main.lua``: Main file
+
+## Principle
+
+// TODO
