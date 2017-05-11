@@ -16,17 +16,22 @@ ip = wifi.sta.getip()
 m = mqtt.Client(CLIENT_ID, 120, "", "")
 
 -- Flash the led on MQTT activity
-function mqttAct()
-    if (gpio.read(MQTT_LED) == 1) then gpio.write(MQTT_LED, gpio.HIGH) end
+function mqtt_activity()
+    if (gpio.read(MQTT_LED) == 1) then 
+        gpio.write(MQTT_LED, gpio.HIGH) 
+    end
     gpio.write(MQTT_LED, gpio.LOW)
-    tmr.alarm(5, 50, 0, function() gpio.write(MQTT_LED, gpio.HIGH) end)
+    tmr.alarm(5, 50, 0, function() 
+        gpio.write(MQTT_LED, gpio.HIGH) 
+    end)
 end
 
 -- Publish MQTT activity to broker
-function mqtt_update()    
-    DATA = '{"mac":"'..wifi.sta.getmac()..'", "ip":"'..ip..'",'
-    DATA = DATA..'"state":"'..gpio.read(RELAY_PIN)..'"}'
-    m:publish(TOPIc, DATA, 0, 0)    
+function mqtt_update()
+    DATA = '{"mac":"'..wifi.sta.getmac()..'", "ip":"'..ip..'", "state":"'..gpio.read(RELAY_PIN)..'"}'
+    m:publish(TOPIC, DATA, 0, 0, function(conn)
+        print(CLIENT_ID.." sending online: "..DATA.." to "..TOPIC)
+    end)
 end
 
 m:lwt("/lwt", '{"message":"'..CLIENT_ID..'", "topic":"'..TOPIC..'", "ip":"'..ip..'"}', 0, 0)
@@ -53,28 +58,32 @@ gpio.trig(BTN_PIN, "down", function (level)
             gpio.write(RELAY_PIN, gpio.HIGH)
             print("Relay was off, turning it on")
         end
-        mqttAct()
+        mqtt_activity()
         mqtt_update()
     end
 end)
 
--- Toggle switch when message received from MQTT broker
+-- Toggle relay when message received from MQTT broker
 m:on("message", function(conn, topic, data)
-    mqttAct()
+    mqtt_activity()
     print("Message received: " .. topic .. " : " .. data)
-    if (data == "ON") then
+    parse = cjson.decode(data)
+    state = parse.state
+    if (state == "1") then
+        print("Relay enable")
         gpio.write(RELAY_PIN, gpio.HIGH)
-    elseif (data == "OFF") then
+    elseif (state == "0") then
+        print("Relay disable")
         gpio.write(RELAY_PIN, gpio.LOW)
     else
-        print("Invalid command (" .. data .. ")")
+        print("Invalid state (" .. state .. ")")
     end
-    mqtt_update()
+    --mqtt_update()
 end)
 
 -- Subscribe to MQTT broker
 function mqtt_sub()
-    mqttAct()
+    mqtt_activity()
     m:subscribe(TOPIC, 2, function(m)
         print("Successfully subscribed to the topic: "..TOPIC)
     end)
