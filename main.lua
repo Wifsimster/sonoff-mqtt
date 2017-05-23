@@ -1,10 +1,10 @@
 require('config')
 
 TOPIC = "/sensors/relay/"
-RELAY_PIN = 6
-BTN_PIN = 3
+RELAY_PIN = 6   -- GPIO 12
+BTN_PIN = 3     -- GPIO 0
 DEBOUNCE = 250
-MQTT_LED = 7
+MQTT_LED = 7    -- GPIO 13
 
 gpio.mode(RELAY_PIN, gpio.OUTPUT)
 gpio.write(RELAY_PIN, gpio.LOW)
