@@ -19,19 +19,11 @@ m = mqtt.Client(CLIENT_ID, 120, "", "")
 -- Flash the led on MQTT activity
 function mqtt_activity()
     if (gpio.read(MQTT_LED) == 1) then 
-        gpio.write(MQTT_LED, gpio.HIGH) 
+        gpio.write(MQTT_LED, gpio.HIGH)
     end
     gpio.write(MQTT_LED, gpio.LOW)
-    tmr.alarm(5, 50, 0, function() 
-        gpio.write(MQTT_LED, gpio.HIGH) 
-    end)
-end
-
--- Say hello to broker
-function mqtt_online()
-    DATA = '{"mac":"'..mac..'","ip":"'..ip..'","state":"'..gpio.read(RELAY_PIN)..'","online":"true","type":"switch"}'
-    m:publish("/online/", DATA, 0, 0, function(conn)
-        print(CLIENT_ID.." : "..DATA.." to "..TOPIC)
+    tmr.alarm(5, 50, 0, function()
+        gpio.write(MQTT_LED, gpio.HIGH)
     end)
 end
 
@@ -100,10 +92,18 @@ function mqtt_sub()
     end)
 end
 
+function mqtt_online()
+    mqtt_activity()
+    DATA = '{"mac":"'..mac..'","ip":"'..ip..'","name":"'..CLIENT_ID..'","type":"switch"}'
+    m:publish("/online/", DATA, 0, 0, function(conn)
+        print(CLIENT_ID.." : "..DATA.." to "..TOPIC)
+    end)
+end
+
 print("Connecting to MQTT: "..BROKER_IP..":"..BROKER_PORT.."...")
 m:connect(BROKER_IP, BROKER_PORT, 0, 1, function(conn)
+    print("Connected to MQTT: "..BROKER_IP..":"..BROKER_PORT.." as "..CLIENT_ID)
     gpio.write(MQTT_LED, gpio.HIGH)
-    print("Connected to MQTT: "..BROKER_IP..":"..BROKER_PORT.." as "..CLIENT_ID)    
+    mqtt_sub()
     mqtt_online()
-    mqtt_sub()  
 end)
