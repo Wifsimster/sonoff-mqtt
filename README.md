@@ -1,8 +1,16 @@
 # Sonoff Wifi Wireless Switch throught a MQTT broker
 
-Command an [sonoff wifi switch](https://www.itead.cc/sonoff-wifi-wireless-switch.html) throught a MQTT broker.
+Command a [sonoff wifi switch](https://www.itead.cc/sonoff-wifi-wireless-switch.html) throught a MQTT broker.
+
+> This LUA script is for ESP8266 hardware.
+
+## Description
+
+You can get this awesome hackable switch on eBay or Banggood for under 5€ !
 
 ![](https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_wifi_switch.jpg)
+
+![](https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_parts.jpg)
 
 ## Pins
 
