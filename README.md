@@ -38,5 +38,5 @@ GPIO 14 | 5
 * Sending a MQTT message to the switch topic with the correct MAC adress and the new state, switch the relay
 
 ```json
-{mac"":"5E:FF:56:A2:AF:15","state":"1"}
+{"mac":"5E:FF:56:A2:AF:15","state":"1"}
 ```
