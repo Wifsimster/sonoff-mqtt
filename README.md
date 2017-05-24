@@ -37,7 +37,7 @@ GPIO 14 | 5
 * Manual action on button, switch the relay state and send a MQTT message with the new relay state
 * Sending a MQTT message to the switch topic with the correct MAC adress and the new state, switch the relay
 
-## Exemples
+## Examples
 
 Turn on the relay :
 ```json
