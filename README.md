@@ -6,9 +6,11 @@ Command a [sonoff wifi switch](https://www.itead.cc/sonoff-wifi-wireless-switch.
 
 ## Description
 
+<img src="https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_wifi_switch.jpg" alt="Switch" width="200px"/>
+
 You can get this awesome hackable switch on eBay or Banggood for under 5€ !
 
-<img src="https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_wifi_switch.jpg" alt="Switch" width="200px"/>
+## Parts
 
 <img src="https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff-parts.jpg" alt="Parts"/>
 
@@ -22,12 +24,19 @@ RX	| 3 (TX)
 GND	| 4
 GPIO 14 | 5
 
-## Files
+## Files tu upload
 
 * ``config.lua``: Configuration variables
 * ``init.lua``: Connect to a wifi AP and then execute main.lua file
 * ``main.lua``: Main file
 
-## Principle
+## Features
 
-// TODO
+* Connect to a MQTT broker, if disconnected, restart the device
+* Flash green led when MQTT activity
+* Manual action on button, switch the relay state and send a MQTT message with the new relay state
+* Sending a MQTT message to the switch topic with the correct MAC adress and the new state, switch the relay
+
+```json
+{mac"":"5E:FF:56:A2:AF:15","state":"1"}
+```
