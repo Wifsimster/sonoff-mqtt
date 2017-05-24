@@ -8,9 +8,8 @@ Command a [sonoff wifi switch](https://www.itead.cc/sonoff-wifi-wireless-switch.
 
 You can get this awesome hackable switch on eBay or Banggood for under 5€ !
 
-![](https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_wifi_switch.jpg)
-
-![](https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_parts.jpg)
+<img src="https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff_wifi_switch.jpg" alt="Switch" style="width: 150px;"/>
+<img src="https://github.com/Wifsimster/sonoff-mqtt/blob/master/sonoff-parts.jpg" alt="Parts" style="width: 150px;"/>
 
 ## Pins
 
