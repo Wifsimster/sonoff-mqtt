@@ -24,7 +24,7 @@ RX	| 3 (TX)
 GND	| 4
 GPIO 14 | 5
 
-## Files tu upload
+## Files
 
 * ``config.lua``: Configuration variables
 * ``init.lua``: Connect to a wifi AP and then execute main.lua file
