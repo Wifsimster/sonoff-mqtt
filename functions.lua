@@ -14,16 +14,16 @@ end
 -- Publish MQTT activity to broker
 function mqtt_update()
     DATA = '{"mac":"'..mac..'","state":"'..gpio.read(RELAY)..'"}'
-    m:publish(TOPIC, DATA, 0, 0, function(conn)
-        print(TOPIC.." : "..CLIENT_ID.." - "..DATA..)
+    m:publish(DATA_TOPIC, DATA, 0, 0, function(conn)
+        print(DATA_TOPIC.." : "..CLIENT_ID.." - "..DATA)
     end)
 end
 
 -- Subscribe to MQTT broker
 function mqtt_sub()
     mqtt_activity()
-    m:subscribe(TOPIC, 2, function(m)
-        print("Successfully subscribed to the topic: "..TOPIC)
+    m:subscribe(DATA_TOPIC, 2, function(m)
+        print("Successfully subscribed to the topic: "..DATA_TOPIC)
     end)
 end
 
@@ -32,17 +32,17 @@ function mqtt_online()
     mqtt_activity()
     DATA = '{"mac":"'..mac..'","ip":"'..ip..'","name":"'..CLIENT_ID..'","type":"'..DEVICE_TYPE..'"}'
     m:publish(ONLINE_TOPIC, DATA, 0, 0, function(conn)
-        print(TOPIC.." : "..CLIENT_ID)
+        print(ONLINE_TOPIC.." : "..CLIENT_ID)
     end)
 end
 
 -- Ping MQTT broker
 function mqtt_ping()
-    tmr.alarm(2, 10000, 0, function()
+    tmr.create():alarm(10000, tmr.ALARM_AUTO, function(cb_timer)
         mqtt_activity()
         DATA = '{"mac":"'..mac..'"}'
         m:publish(PING_TOPIC, DATA, 0, 0, function(conn)
-            print(TOPIC.." : "..CLIENT_ID)
+            print(PING_TOPIC.." : "..CLIENT_ID)
         end)
     end)
 end

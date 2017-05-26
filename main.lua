@@ -11,7 +11,7 @@ mac = wifi.sta.getmac()
 ip = wifi.sta.getip()
 m = mqtt.Client(CLIENT_ID, 120, "", "")
 
-m:lwt("/lwt", '{"message":"'..CLIENT_ID..'","topic":"'..TOPIC..'","ip":"'..ip..'"}', 0, 0)
+m:lwt("/lwt", '{"message":"'..CLIENT_ID..'","topic":"'..DATA_TOPIC..'","ip":"'..ip..'"}', 0, 0)
 
 -- Try to reconnect to broker when communication is down
 m:on("offline", function(con)

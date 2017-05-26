@@ -7,7 +7,7 @@ wifi.sta.config(AP,PWD)
 
 print('MAC address:', wifi.sta.getmac())
 
-tmr.create():alarm(1000, tmr.ALARM_AUTO, function(cb_timer)
+tmr.create():alarm(10000, tmr.ALARM_AUTO, function(cb_timer)
     if wifi.sta.getip() == nil then
         print("Waiting for IP address...")
     else
