@@ -31,23 +31,23 @@ GPIO 14 | 5
 * ``functions.lua``: Handy MQTT functions
 * ``main.lua``: Main file
 
-## Examples
+## MQTT messages
 
-### /online/
+### Publish to /online/
 
-Presentation of the device to MQTT broker on `/online/` topic :
+Presentation of the device to MQTT broker :
 ```json
 {"mac":"5E:FF:56:A2:AF:15","ip":"192.168.0.1","name":"ESP8266-45643","type":"switch"}
 ```
 
-### /ping/
+### Publish to /ping/
 
-Stay alive message for the MQTT broker on `/ping/` topic :
+Stay alive message for the MQTT broker :
 ```json
 {"mac":"5E:FF:56:A2:AF:15"}
 ```
 
-### /sensors/relay
+### Subscribe to /sensors/relay/
 
 Turn ON the relay :
 ```json
