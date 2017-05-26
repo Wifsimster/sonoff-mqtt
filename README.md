@@ -28,23 +28,33 @@ GPIO 14 | 5
 
 * ``config.lua``: Configuration variables
 * ``init.lua``: Connect to a wifi AP and then execute main.lua file
+* ``functions.lua``: Handy MQTT functions
 * ``main.lua``: Main file
-
-## Features
-
-* Connect to a MQTT broker, if disconnected, restart the device
-* Flash green led when MQTT activity
-* Manual action on button, switch the relay state and send a MQTT message with the new relay state
-* Sending a MQTT message to the switch topic with the correct MAC adress and the new state, switch the relay
 
 ## Examples
 
-Turn on the relay :
+### /online/
+
+Presentation of the device to MQTT broker on `/online/` topic :
+```json
+{"mac":"5E:FF:56:A2:AF:15","ip":"192.168.0.1","name":"ESP8266-45643","type":"switch"}
+```
+
+### /ping/
+
+Stay alive message for the MQTT broker on `/ping/` topic :
+```json
+{"mac":"5E:FF:56:A2:AF:15"}
+```
+
+### /sensors/relay
+
+Turn ON the relay :
 ```json
 {"mac":"5E:FF:56:A2:AF:15","state":"1"}
 ```
 
-Turn off the relay :
+Turn OFF the relay :
 ```json
 {"mac":"5E:FF:56:A2:AF:15","state":"0"}
 ```
