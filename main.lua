@@ -11,7 +11,7 @@ mac = wifi.sta.getmac()
 ip = wifi.sta.getip()
 m = mqtt.Client(CLIENT_ID, 120, "", "")
 
-m:lwt("/lwt", '{"message":"'..CLIENT_ID..'","topic":"'..DATA_TOPIC..'","ip":"'..ip..'"}', 0, 0)
+m:lwt("/lwt", '{"mac":"'..mac..'"}', 0, 0)
 
 -- Try to reconnect to broker when communication is down
 m:on("offline", function(con)
@@ -36,7 +36,7 @@ gpio.trig(BTN, "down", function (level)
             print("Relay was off, turning it on")
         end
         mqtt_activity()
-        mqtt_update()
+        mqtt_state()
     end
 end)
 
@@ -46,16 +46,33 @@ m:on("message", function(conn, topic, data)
     print("Message received: " .. topic .. " : " .. data)
     parse = cjson.decode(data)
     mac = parse.mac
-    state = parse.state
+    action = parse.action
     if(mac == wifi.sta.getmac()) then
-        if (state == "1") then
+        if (action == "ON") then
             print("Relay enable")
             gpio.write(RELAY, gpio.HIGH)
-        elseif (state == "0") then
+            mqtt_state()
+        elseif (action == "OFF") then
             print("Relay disable")
             gpio.write(RELAY, gpio.LOW)
+            mqtt_state()
+        elseif (action == "STATE") then
+            mqtt_state()
+        elseif (action == "PING") then
+            mqtt_ping()
+        elseif (action == "ONLINE") then
+            mqtt_online()
+        elseif (action == "IP") then
+            mqtt_ip()
+        elseif (action == "NAME") then
+            mqtt_name()
+        elseif (action == "TYPE") then
+            mqtt_type()
+        elseif (action == "RESET") then
+            print("Restart node")
+            node.restart()
         else
-            print("Invalid state (" .. state .. ")")
+            print("Invalid action (" .. action .. ")")
         end
     end
 end)
@@ -64,7 +81,6 @@ print("Connecting to "..BROKER_IP..":"..BROKER_PORT.."...")
 m:connect(BROKER_IP, BROKER_PORT, 0, 1, function(conn)
     print("Connected to "..BROKER_IP..":"..BROKER_PORT.." as "..CLIENT_ID)
     gpio.write(LED, gpio.HIGH)
-    mqtt_sub()
     mqtt_online()
-    mqtt_ping()
+    mqtt_subscribe()
 end)
